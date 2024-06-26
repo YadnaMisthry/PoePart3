@@ -1,0 +1,39 @@
+name: Workflow
+'on':
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: null
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: List contents
+        run: ls
+      - name: compile classes
+        working-directory: ./src
+        run: >-
+          javac -cp
+          "../testresources/junit-platform-console-standalone-1.6.0.jar"
+          "./poetodoapp/POEToDoApp.java" "./ poetodoapp/ToDo.java"
+          "../test/ poetodoapp/poetodoapp.java"
+      - name: List contents of src directory after compile
+        working-directory: ./src/poetodoapp
+        run: ls
+      - name: create testresources/poetodoapp directory
+        run: mkdir -p ./testresources/poetodoapp
+      - name: copy compiled classes to testresources directory
+        working-directory: ./src/poetodoapp
+        run: cp -t  "../../test/poetodoapp " POEToDoApp.class ToDo.class
+      - name: copy compiled Test classes to testresources directory
+        working-directory: ./test/poetodoapp
+        run: cp -t  "../../testresources/poetodoapp" ToDoTest.class
+      - name: List contents test package
+        working-directory: ./test/poetodoapp
+        run: ls
+
+
