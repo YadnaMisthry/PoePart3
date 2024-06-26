@@ -20,7 +20,7 @@ jobs:
           javac -cp
           "../testresources/junit-platform-console-standalone-1.6.0.jar"
           "./poetodoapp/POEToDoApp.java" "./ poetodoapp/ToDo.java"
-          "../test/ poetodoapp/poetodoapp.java"
+          "../test/ poetodoapp/ToDoTest.java"
       - name: List contents of src directory after compile
         working-directory: ./src/poetodoapp
         run: ls
